@@ -1,3 +1,4 @@
+import json
 # """ 
 # My CAR CONFIG 
 
@@ -490,15 +491,19 @@
 # # This enables that, and sets the path to the simualator and the environment.
 # # You will want to download the simulator binary from: https://github.com/tawnkramer/donkey_gym/releases/download/v18.9/DonkeySimLinux.zip
 # # then extract that and modify DONKEY_SIM_PATH.
-# DONKEY_GYM = False
-# DONKEY_SIM_PATH = "path to sim" #"/home/tkramer/projects/sdsandbox/sdsim/build/DonkeySimLinux/donkey_sim.x86_64" when racing on virtual-race-league use "remote", or user "remote" when you want to start the sim manually first.
-# DONKEY_GYM_ENV_NAME = "donkey-generated-track-v0" # ("donkey-generated-track-v0"|"donkey-generated-roads-v0"|"donkey-warehouse-v0"|"donkey-avc-sparkfun-v0")
-# GYM_CONF = { "body_style" : "donkey", "body_rgb" : (128, 128, 128), "car_name" : "car", "font_size" : 100} # body style(donkey|bare|car01) body rgb 0-255
+
+with open("../custom_paths.json", "r") as f:
+    paths = json.load(f)
+
+DONKEY_GYM = True
+DONKEY_SIM_PATH = paths["sim_path"]
+DONKEY_GYM_ENV_NAME = "donkey-waveshare-v0" # ("donkey-generated-track-v0"|"donkey-generated-roads-v0"|"donkey-warehouse-v0"|"donkey-avc-sparkfun-v0")
+GYM_CONF = { "body_style" : "donkey", "body_rgb" : (128, 128, 128), "car_name" : "ruauto", "font_size" : 50} # body style(donkey|bare|car01) body rgb 0-255
 # GYM_CONF["racer_name"] = "Your Name"
 # GYM_CONF["country"] = "Place"
 # GYM_CONF["bio"] = "I race robots."
 # 
-# SIM_HOST = "127.0.0.1"              # when racing on virtual-race-league use host "trainmydonkey.com"
+SIM_HOST = paths["host_address"] # when racing on virtual-race-league use host "trainmydonkey.com"
 # SIM_ARTIFICIAL_LATENCY = 0          # this is the millisecond latency in controls. Can use useful in emulating the delay when useing a remote server. values of 100 to 400 probably reasonable.
 # 
 # # Save info from Simulator (pln)
@@ -528,7 +533,7 @@
 # #
 # # Intel Realsense D435 and D435i depth sensing camera
 # #
-# REALSENSE_D435_RGB = True       # True to capture RGB image
+REALSENSE_D435_RGB = False       # True to capture RGB image
 # REALSENSE_D435_DEPTH = False    # True to capture depth as image array
 # REALSENSE_D435_IMU = False      # True to capture IMU data (D435i only)
 # REALSENSE_D435_ID = None        # serial number of camera or None if you only have one camera (it will autodetect)
@@ -553,17 +558,17 @@
 # # computer vision template
 # #
 # # configure which part is used as the autopilot - change to use your own autopilot
-# CV_CONTROLLER_MODULE = "donkeycar.parts.line_follower"
-# CV_CONTROLLER_CLASS = "LineFollower"
-# CV_CONTROLLER_INPUTS = ['cam/image_array']
-# CV_CONTROLLER_OUTPUTS = ['pilot/steering', 'pilot/throttle', 'cv/image_array']
-# CV_CONTROLLER_CONDITION = "run_pilot"
+CV_CONTROLLER_MODULE = "donkeycar.custom_parts.lane_follower"
+CV_CONTROLLER_CLASS = "LaneFollower"
+CV_CONTROLLER_INPUTS = ['cam/image_array']
+CV_CONTROLLER_OUTPUTS = ['pilot/steering', 'pilot/throttle', 'cv/image_array']
+CV_CONTROLLER_CONDITION = "run_pilot"
 # 
-# # LineFollower - line color and detection area
-# SCAN_Y = 5          # num pixels from the top to start horiz scan
-# SCAN_HEIGHT = 20      # num pixels high to grab from horiz scan
-# COLOR_THRESHOLD_LOW  = (0, 50, 50)    # HSV dark yellow (opencv HSV hue value is 0..179, saturation and value are both 0..255)
-# COLOR_THRESHOLD_HIGH = (50, 255, 255) # HSV light yellow (opencv HSV hue value is 0..179, saturation and value are both 0..255)
+# LineFollower - line color and detection area
+SCAN_Y = 80          # num pixels from the top to start horiz scan
+SCAN_HEIGHT = 20      # num pixels high to grab from horiz scan
+COLOR_THRESHOLD_LOW  = (14, 76, 122)    # HSV dark yellow (opencv HSV hue value is 0..179, saturation and value are both 0..255) (0, 50, 50)
+COLOR_THRESHOLD_HIGH = (68, 255, 255) # HSV light yellow (opencv HSV hue value is 0..179, saturation and value are both 0..255)
 # 
 # # LineFollower - target (expected) line position and detection thresholds
 # TARGET_PIXEL = None   # In not None, then this is the expected horizontal position in pixels of the yellow line.
@@ -583,16 +588,16 @@
 #                                 # may want to lower the threshold.
 # 
 # # LineFollower - throttle step controller; increase throttle on straights, descrease on turns
-# THROTTLE_MAX = 0.05    # maximum throttle value the controller will produce
-# THROTTLE_MIN = 0.01  # minimum throttle value the controller will produce
+THROTTLE_MAX = 0.3    # maximum throttle value the controller will produce (default = 0.3)
+THROTTLE_MIN = 0.15  # minimum throttle value the controller will produce(default = 0.3)
 # THROTTLE_INITIAL = THROTTLE_MIN  # initial throttle value
 # THROTTLE_STEP = 0.01  # how much to change throttle when off the line
 # 
 # # These three PID constants are crucial to the way the car drives. If you are tuning them
 # # start by setting the others zero and focus on first Kp, then Kd, and then Ki.
-# PID_P = -0.01         # proportional mult for PID path follower
-# PID_I = 0.000         # integral mult for PID path follower
-# PID_D = -0.0001       # differential mult for PID path follower
+PID_P = -0.06         # proportional mult for PID path follower
+PID_I = 0.000         # integral mult for PID path follower
+PID_D = -0.0001       # differential mult for PID path follower
 # 
 # PID_P_DELTA = 0.005   # amount the inc/dec function will change the P value
 # PID_D_DELTA = 0.00005 # amount the inc/dec function will change the D value

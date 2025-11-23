@@ -1,0 +1,4 @@
+To run a simulation on my_car_cv vehicle do the following:
+ - create a "custom_paths.json" file in the my_vehicle directory
+ - add a key "sim_path" and set the value to your simulator execuatble
+ - add a key "host_address" and set value to the value for SIM_PATH in myconfig 
