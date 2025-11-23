@@ -175,7 +175,7 @@ def drive(cfg, use_joystick=False, camera_type='single', meta=[]):
 
 
     #
-    # OLED display setup
+    # OLED display setup (don't need this)
     #
     if cfg.USE_SSD1306_128_32:
         from donkeycar.parts.oled import OLEDPart
@@ -185,22 +185,26 @@ def drive(cfg, use_joystick=False, camera_type='single', meta=[]):
 
 
     #
+    # Commented out to disable recording
+    #
     # add tub to save data
     #
-    inputs=['cam/image_array',
-            'steering', 'throttle']
+    # inputs=['cam/image_array',
+    #         'steering', 'throttle']
 
-    types=['image_array',
-           'float', 'float']
+    # types=['image_array',
+    #        'float', 'float']
 
     #
     # Create data storage part
     #
-    tub_path = TubHandler(path=cfg.DATA_PATH).create_tub_path() if \
-        cfg.AUTO_CREATE_NEW_TUB else cfg.DATA_PATH
-    meta += getattr(cfg, 'METADATA', [])
-    tub_writer = TubWriter(tub_path, inputs=inputs, types=types, metadata=meta)
-    V.add(tub_writer, inputs=inputs, outputs=["tub/num_records"], run_condition='recording')
+    #
+    # tub_path = TubHandler(path=cfg.DATA_PATH).create_tub_path() if \
+    #     cfg.AUTO_CREATE_NEW_TUB else cfg.DATA_PATH
+    # meta += getattr(cfg, 'METADATA', [])
+    # tub_writer = TubWriter(tub_path, inputs=inputs, types=types, metadata=meta)
+
+    # V.add(tub_writer, inputs=inputs, outputs=["tub/num_records"], run_condition='recording')
 
     if cfg.DONKEY_GYM:
         print("You can now go to http://localhost:%d to drive your car." % cfg.WEB_CONTROL_PORT)
@@ -209,7 +213,7 @@ def drive(cfg, use_joystick=False, camera_type='single', meta=[]):
     if has_input_controller:
         print("You can now move your controller to drive your car.")
         if isinstance(ctr, JoystickController):
-            ctr.set_tub(tub_writer.tub)
+            ctr.set_tub(tub_writer.tub) #type: ignore
             ctr.print_controls()
 
     #

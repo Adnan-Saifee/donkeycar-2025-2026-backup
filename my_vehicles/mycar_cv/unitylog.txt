@@ -1,0 +1,80 @@
+Mono path[0] = 'C:/Users/adnan/Rutgers 2024/Clubs/RUAutonomous/DonkeyCar/DonkeySim/DonkeySimWin/donkey_sim_Data/Managed'
+Mono config path = 'C:/Users/adnan/Rutgers 2024/Clubs/RUAutonomous/DonkeyCar/DonkeySim/DonkeySimWin/MonoBleedingEdge/etc'
+Initialize engine version: 2020.3.4f1 (0abb6314276a)
+[Subsystems] Discovering subsystems at path C:/Users/adnan/Rutgers 2024/Clubs/RUAutonomous/DonkeyCar/DonkeySim/DonkeySimWin/donkey_sim_Data/UnitySubsystems
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: AMD Radeon(TM) Graphics (ID=0x1681)
+    Vendor:   
+    VRAM:     7562 MB
+    Driver:   32.0.11030.10004
+Begin MonoManager ReloadAssembly
+- Completed reload, in  0.085 seconds
+D3D11 device created for Microsoft Media Foundation video decoding.
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.756600 ms
+SDSandbox Server starting.
+
+Server Listening on: 0.0.0.0:9091
+
+Waiting for a connection...
+
+SDSandbox Server starting.
+
+Server Listening on: 0.0.0.0:9092
+
+Waiting for a connection...
+
+Setting up 8 worker threads for Enlighten.
+  Thread -> id: 345c -> priority: 1 
+  Thread -> id: 51c4 -> priority: 1 
+  Thread -> id: 64fc -> priority: 1 
+  Thread -> id: 79a4 -> priority: 1 
+  Thread -> id: 7b40 -> priority: 1 
+  Thread -> id: 58d8 -> priority: 1 
+  Thread -> id: 2fe4 -> priority: 1 
+  Thread -> id: 2350 -> priority: 1 
+Waiting for a connection...
+
+client connected.
+
+waveshare
+
+loaded scene
+
+Unloading 8 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 6.991800 ms
+JustOne removing instance.SandboxServer
+
+JustOne removing instance.MainThDisp
+
+found 24 path points. to load
+
+JustOne removing instance.SandboxPrivateAPIServer
+
+Added timer
+
+car loaded.
+
+Got car config message
+
+
+Unloading 36 unused Assets to reduce memory usage. Loaded Objects now: 3328.
+Total: 3.354300 ms (FindLiveObjects: 0.185200 ms CreateObjectMapping: 0.055300 ms MarkObjects: 1.342900 ms  DeleteObjects: 1.770800 ms)
+
+Setting car config.
+
+removed timer
+
+removed split screen camera
+
+Removed car
+
+Server stopped.
+
+Server stopped.
+
