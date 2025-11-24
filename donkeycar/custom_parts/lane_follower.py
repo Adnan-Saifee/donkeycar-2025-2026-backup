@@ -26,7 +26,6 @@ class LaneFollower:
         self.throttle_max = cfg.THROTTLE_MAX
         self.throttle_min = cfg.THROTTLE_MIN
         self.pid_st = pid
-        
         self.current_lane_width = 0
         self.prev_lane_width = 0
         self.prev_left_peak = 0
@@ -57,7 +56,7 @@ class LaneFollower:
         if np.any(left_half > 0):
 
             # Find max in left_half, element-wise comparision to make a boolean array(same shape), 
-            # np.where() -> finds the indices of the 1s
+            # np.where() -> finds the indices of the Trues
             # the average is taken because multiple max values could be found, due
             # to the lane boundaries being many pixels wide. 
             left_peak = int(np.average(np.where(left_half == left_half.max())[0]))
@@ -79,24 +78,8 @@ class LaneFollower:
             peaks.append(right_peak)
 
         # Keeps track of the lane width per iteration, to use in case one of the lines are not found
-        # TRASH CODE will most likely not work, when this situation is reached.  
         if left_peak is not None and right_peak is not None:
             self.current_lane_width = right_peak - left_peak
-
-            if self.prev_lane_width is not None and self.prev_lane_width != 0:
-                ratio = self.current_lane_width / self.prev_lane_width
-
-                # 30% change triggers this
-                if ratio > 1.3 or ratio < 0.7:
-                    delta_width = self.current_lane_width - self.prev_lane_width
-                    delta_left = left_peak - self.prev_left_peak
-                    delta_right = right_peak - self.prev_right_peak
-
-                    if delta_left > delta_right:
-                        del peaks[0]
-                    else:
-                        del peaks[1]
-                    self.current_lane_width = self.prev_lane_width
                     
         if self.current_lane_width is not None:
             self.prev_lane_width = self.current_lane_width
@@ -119,7 +102,7 @@ class LaneFollower:
         peaks, confidence, mask = self.get_i_color(cam_img)
 
         if not peaks:
-            logger.info(f"No line detected: confidence {confidence} < {self.confidence_threshold}")
+            logger.info(f"No peak detected: confidence {confidence} < {self.confidence_threshold}")
             return self.steering, self.throttle, cam_img
 
         # If only one line found, use it(and self.current_lane_width) to calculate the center
@@ -160,13 +143,14 @@ class LaneFollower:
         if self.overlay_image:
             cam_img = self.overlay_display(cam_img, mask, peaks, confidence)
 
+        # Currently hardcoded
         self.throttle = 0.07
         return self.steering, self.throttle , cam_img
 
     def overlay_display(self, cam_img, mask, peaks, confidence):
         mask_exp = np.stack((mask,) * 3, axis=-1)
         iSlice = self.scan_y
-        #print("iSlice: ", iSlice)
+        
         img = np.copy(cam_img)
         img[iSlice : iSlice + self.scan_height, :, :] = mask_exp
 
